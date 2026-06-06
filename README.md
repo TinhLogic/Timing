@@ -1,6 +1,6 @@
 # Timing
 
-[![NuGet](https://img.shields.io/nuget/v/Timing.Net.svg?label=NuGet)](https://www.nuget.org/packages/Timing.Net/1.0.0)
+[![NuGet](https://img.shields.io/nuget/v/Timing.Net.svg?label=NuGet)](https://www.nuget.org/packages/Timing.Net/1.0.2)
 
 Thư viện nhỏ cho .NET để xử lý thời gian toàn ứng dụng với hỗ trợ chuẩn hóa UTC/local và đăng ký dependency injection.
 
@@ -21,17 +21,12 @@ Lợi ích:
 - Đăng ký vào `ServiceCollection` qua `AddTimingClock`
 - Lớp `Clock` là internal, chỉ lộ ra API công khai `IClock`
 
-## Cài đặt qua Repoitory
-
-Nếu dùng repository này làm tham chiếu dự án, đảm bảo ứng dụng tiêu thụ chạy trên .NET 6.0.
-
-
 ## Cài đặt qua NuGet
 
 Cài đặt package từ NuGet:
 
 ```bash
-dotnet add package Timing.Net --version 1.0.0
+dotnet add package Timing.Net --version 1.0.2
 ```
 
 ## Sử dụng
