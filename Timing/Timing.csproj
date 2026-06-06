@@ -7,7 +7,7 @@
     <!-- NuGet Packaging Configuration -->
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Timing.Net</PackageId>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Authors>Timing Contributors</Authors>
     <Description>A .NET library for application-wide clock handling with support for UTC/local normalization and dependency injection</Description>
     <PackageProjectUrl>https://github.com/TinhLogic/Timing</PackageProjectUrl>
