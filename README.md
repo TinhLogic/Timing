@@ -1,10 +1,7 @@
 # Timing
 
-[![NuGet](https://img.shields.io/nuget/v/Timing.Net.svg?label=NuGet)](https://www.nuget.org/packages/Timing.Net/1.0.2)
+[![English](https://img.shields.io/badge/English-below-blue)](https://github.com/TinhLogic/Timing#english) [![NuGet](https://img.shields.io/nuget/v/Timing.Net.svg?label=NuGet)](https://www.nuget.org/packages/Timing.Net/1.0.2)
 
-[English Below](#english){: .no-underline }
-
----
 
 Thư viện nhỏ cho .NET để xử lý thời gian toàn ứng dụng với hỗ trợ chuẩn hóa UTC/local và đăng ký dependency injection.
 
