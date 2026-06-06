@@ -14,6 +14,17 @@ Thư viện nhỏ cho .NET để xử lý thời gian toàn ứng dụng với h
 
 Nếu dùng repository này làm tham chiếu dự án, đảm bảo ứng dụng tiêu thụ chạy trên .NET 6.0.
 
+## Tại sao sử dụng `IClock`?
+
+**`IClock`** là một service cốt lõi để quản lý các thao tác liên quan đến thời gian (ngày/giờ).
+
+Mục đích chính của việc sử dụng `IClock` thay vì gọi trực tiếp `DateTime.Now` hoặc `DateTime.UtcNow` là để **đảm bảo tính nhất quán về `DateTimeKind`** (UTC, Local, hoặc Unspecified) trên toàn bộ ứng dụng của bạn. Điều này đặc biệt quan trọng khi hệ thống phải phục vụ người dùng ở nhiều múi giờ khác nhau.
+
+Lợi ích:
+- **Consistency**: Tất cả thời gian trong ứng dụng tuân theo một cấu hình `DateTimeKind` duy nhất
+- **Testability**: Có thể mock `IClock` trong unit test
+- **Centralized Management**: Quản lý cách xử lý thời gian tại một điểm duy nhất
+
 ## Sử dụng
 
 ### Đăng ký clock trong DI
