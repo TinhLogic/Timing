@@ -2,7 +2,7 @@
 
 [![NuGet](https://img.shields.io/nuget/v/Timing.Net.svg?label=NuGet)](https://www.nuget.org/packages/Timing.Net/1.0.2)
 
-[👇 English Below](#timing-english)
+[👇 English Below](#english)
 
 Thư viện nhỏ cho .NET để xử lý thời gian toàn ứng dụng với hỗ trợ chuẩn hóa UTC/local và đăng ký dependency injection.
 
@@ -86,7 +86,7 @@ DateTimeOffset normalizedOffset = clock.Normalize(DateTimeOffset.Now);
 
 ---
 
-## Timing (English) {#timing-english}
+# English
 
 > **Note**: This English section is automatically translated from Vietnamese by AI.
 
