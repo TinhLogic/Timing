@@ -73,6 +73,8 @@ DateTimeOffset normalizedOffset = clock.Normalize(DateTimeOffset.Now);
   - `DateTimeOffset NowOffset { get; }`
   - `DateTime Normalize(DateTime dateTime)`
   - `DateTimeOffset Normalize(DateTimeOffset dateTime)`
+  - `bool SupportsMultipleTimezone { get; }`
+  - `DateTimeKind Kind { get; }`
 - `ClockOptions`
   - `DateTimeKind Kind { get; set; }`
 - `ClockServiceCollectionExtensions`
@@ -159,6 +161,8 @@ DateTimeOffset normalizedOffset = clock.Normalize(DateTimeOffset.Now);
   - `DateTimeOffset NowOffset { get; }`
   - `DateTime Normalize(DateTime dateTime)`
   - `DateTimeOffset Normalize(DateTimeOffset dateTime)`
+  - `bool SupportsMultipleTimezone { get; }`
+  - `DateTimeKind Kind { get; }`
 - `ClockOptions`
   - `DateTimeKind Kind { get; set; }`
 - `ClockServiceCollectionExtensions`
