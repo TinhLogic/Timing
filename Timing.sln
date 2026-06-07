@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.33425.234
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timing", "Timing\Timing.csproj", "{B8410B99-C775-471E-ABDD-A258251E0D31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timing", "src\Timing\Timing.csproj", "{B8410B99-C775-471E-ABDD-A258251E0D31}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleApp", "SampleApp", "{B2F7EA90-A870-E82A-5A13-9F89FB6CA33F}"
 EndProject
