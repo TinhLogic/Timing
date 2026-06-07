@@ -5,7 +5,7 @@ using Timing;
 var services = new ServiceCollection();
 services.AddTimingClock(options =>
 {
-    options.Kind = DateTimeKind.Local;
+    options.Kind = DateTimeKind.Utc;
 });
 
 var serviceProvider = services.BuildServiceProvider();
@@ -15,8 +15,8 @@ Console.WriteLine("=== Timing Sample App ===");
 Console.WriteLine();
 Console.WriteLine($"Now (DateTime): {clock.Now}");
 Console.WriteLine($"NowOffset: {clock.NowOffset}");
-// Console.WriteLine($"SupportsMultipleTimezone: {clock.SupportsMultipleTimezone}");
-// Console.WriteLine($"Kind: {clock.Kind}");
+Console.WriteLine($"Supports Multiple Timezone: {clock.SupportsMultipleTimezone}");
+Console.WriteLine($"Kind: {clock.Kind}");
 Console.WriteLine();
 
 var now = DateTime.Now;

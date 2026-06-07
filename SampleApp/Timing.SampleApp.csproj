@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Timing.Net" Version="1.0.2" />
+    <PackageReference Include="Timing.Net" Version="1.0.4" />
   </ItemGroup>
 
   <PropertyGroup>
