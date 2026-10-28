@@ -1,9 +1,8 @@
 # Timing
 
-[![English](https://img.shields.io/badge/English-below-green)](https://github.com/TinhLogic/Timing#english) [![NuGet](https://img.shields.io/nuget/v/Timing.Net.svg?label=NuGet)](https://www.nuget.org/packages/Timing.Net/1.0.4)
+[![English](https://img.shields.io/badge/English-below-green)](https://github.com/TinhLogic/Timing#english) [![NuGet](https://img.shields.io/nuget/v/Timing.Net.svg?label=NuGet)](https://www.nuget.org/packages/Timing.Net/1.1.0)
 
-
-Thư viện nhỏ cho .NET để xử lý thời gian toàn ứng dụng với hỗ trợ chuẩn hóa UTC/local và đăng ký dependency injection.
+Thư viện nhỏ cho .NET hỗ trợ đồng thời **.NET 6** và **.NET 8+** để xử lý thời gian toàn ứng dụng với hỗ trợ chuẩn hóa UTC/local, tích hợp **`TimeProvider`** (.NET 8+) và đăng ký dependency injection.
 
 **`IClock`** là một service cốt lõi để quản lý các thao tác liên quan đến thời gian (ngày/giờ).
 
@@ -11,21 +10,25 @@ Mục đích chính của việc sử dụng `IClock` thay vì gọi trực ti�
 
 Lợi ích:
 - **Consistency**: Tất cả thời gian trong ứng dụng tuân theo một cấu hình `DateTimeKind` duy nhất
-- **Testability**: Có thể mock `IClock` trong unit test
+- **TimeProvider Integration**: Tích hợp chuẩn `TimeProvider` của .NET 8, dễ dàng thay thế `FakeTimeProvider` khi viết unit test
+- **Testability**: Có thể mock `IClock` hoặc `TimeProvider` trong unit test mà không phụ thuộc thời gian hệ thống thật
 - **Centralized Management**: Quản lý cách xử lý thời gian tại một điểm duy nhất
+- **Multi-targeting**: Hỗ trợ cả `.NET 6.0` và `.NET 8.0` trong cùng một NuGet package
 
 ## Tính năng
 
 - Trừu tượng `IClock` để lấy thời gian hiện tại
 - Hỗ trợ `DateTime` và `DateTimeOffset`
-- Chuẩn hóa theo `DateTimeKind` được cấu hình
+- Chuẩn hóa theo `DateTimeKind` được cấu hình (UTC / Local)
+- Tích hợp `System.TimeProvider` gốc trên .NET 8+
+- Tương thích ngược hoàn toàn với .NET 6
 - Đăng ký vào `ServiceCollection` qua `AddTimingClock`
-- Lớp `Clock` là internal, chỉ lộ ra API công khai `IClock`
+- Lớp `Clock` là internal sealed, chỉ lộ ra API công khai `IClock`
 
 ## Cài đặt qua NuGet
 
 ```bash
-dotnet add package Timing.Net --version 1.0.4
+dotnet add package Timing.Net --version 1.1.0
 ```
 
 ## Sử dụng
@@ -59,12 +62,30 @@ DateTime normalizedDateTime = clock.Normalize(DateTime.Now);
 DateTimeOffset normalizedOffset = clock.Normalize(DateTimeOffset.Now);
 ```
 
+### Sử dụng TimeProvider (.NET 8+)
+
+Trên .NET 8+, bạn có thể truy xuất `TimeProvider` trực tiếp từ `IClock` hoặc cấu hình `TimeProvider` tùy chỉnh:
+
+```csharp
+// Truy xuất TimeProvider từ clock
+TimeProvider provider = clock.TimeProvider;
+DateTimeOffset utcNow = provider.GetUtcNow();
+
+// Cấu hình TimeProvider tùy chỉnh (hoặc FakeTimeProvider cho testing)
+services.AddTimingClock(options =>
+{
+    options.Kind = DateTimeKind.Utc;
+    options.TimeProvider = myCustomTimeProvider;
+});
+```
+
 ### Hành vi của clock
 
 - `Now` trả về thời gian hiện tại dưới dạng `DateTime`
 - `NowOffset` trả về thời gian hiện tại dưới dạng `DateTimeOffset`
 - `Normalize(DateTime)` chuẩn hóa đầu vào theo `DateTimeKind` đã cấu hình
 - `Normalize(DateTimeOffset)` chuyển đầu vào về UTC hoặc local tuỳ cấu hình
+- `TimeProvider` (.NET 8+) trả về `TimeProvider` đang được sử dụng (mặc định là `TimeProvider.System`)
 
 ## API
 
@@ -75,15 +96,12 @@ DateTimeOffset normalizedOffset = clock.Normalize(DateTimeOffset.Now);
   - `DateTimeOffset Normalize(DateTimeOffset dateTime)`
   - `bool SupportsMultipleTimezone { get; }`
   - `DateTimeKind Kind { get; }`
+  - `TimeProvider TimeProvider { get; }` *(.NET 8+)*
 - `ClockOptions`
   - `DateTimeKind Kind { get; set; }`
+  - `TimeProvider? TimeProvider { get; set; }` *(.NET 8+)*
 - `ClockServiceCollectionExtensions`
   - `AddTimingClock(this IServiceCollection services, Action<ClockOptions>? configureOptions = null)`
-
-## Ghi chú
-
-- Lớp cụ thể `Clock` là internal và không được hiển thị công khai trong package.
-- Người dùng nên chỉ phụ thuộc vào `IClock`.
 
 ---
 
@@ -91,7 +109,7 @@ DateTimeOffset normalizedOffset = clock.Normalize(DateTimeOffset.Now);
 
 > **Note**: This English section is automatically translated from Vietnamese by AI.
 
-A small .NET library for handling application-wide time management with UTC/local normalization support and dependency injection registration.
+A lightweight .NET library supporting both **.NET 6** and **.NET 8+** for handling application-wide time management with UTC/local normalization support, **`TimeProvider`** integration (.NET 8+), and dependency injection registration.
 
 **`IClock`** is a core service for managing time-related operations (date/time).
 
@@ -99,21 +117,25 @@ The main purpose of using `IClock` instead of directly calling `DateTime.Now` or
 
 Benefits:
 - **Consistency**: All time in the application follows a single `DateTimeKind` configuration
-- **Testability**: `IClock` can be mocked in unit tests
+- **TimeProvider Integration**: Native `TimeProvider` integration on .NET 8+, easy to swap with `FakeTimeProvider` for unit testing
+- **Testability**: Can mock `IClock` or `TimeProvider` in unit tests without depending on the actual system clock
 - **Centralized Management**: Manage how time is handled at a single point
+- **Multi-targeting**: Supports both `.NET 6.0` and `.NET 8.0` in the same NuGet package
 
 ## Features
 
 - `IClock` abstraction for getting the current time
 - Support for `DateTime` and `DateTimeOffset`
-- Normalization based on configured `DateTimeKind`
+- Normalization based on configured `DateTimeKind` (UTC / Local)
+- Native `System.TimeProvider` integration on .NET 8+
+- Full backward compatibility with .NET 6
 - Registration into `ServiceCollection` via `AddTimingClock`
-- `Clock` class is internal, only exposing the public `IClock` API
+- `Clock` class is internal sealed, only exposing the public `IClock` API
 
 ## Installation via NuGet
 
 ```bash
-dotnet add package Timing.Net --version 1.0.2
+dotnet add package Timing.Net --version 1.1.0
 ```
 
 ## Usage
@@ -147,12 +169,30 @@ DateTime normalizedDateTime = clock.Normalize(DateTime.Now);
 DateTimeOffset normalizedOffset = clock.Normalize(DateTimeOffset.Now);
 ```
 
+### Using TimeProvider (.NET 8+)
+
+On .NET 8+, you can access `TimeProvider` directly from `IClock` or configure a custom `TimeProvider`:
+
+```csharp
+// Access TimeProvider from clock
+TimeProvider provider = clock.TimeProvider;
+DateTimeOffset utcNow = provider.GetUtcNow();
+
+// Configure custom TimeProvider (or FakeTimeProvider for testing)
+services.AddTimingClock(options =>
+{
+    options.Kind = DateTimeKind.Utc;
+    options.TimeProvider = myCustomTimeProvider;
+});
+```
+
 ### Clock behavior
 
 - `Now` returns the current time as `DateTime`
 - `NowOffset` returns the current time as `DateTimeOffset`
 - `Normalize(DateTime)` normalizes the input according to the configured `DateTimeKind`
 - `Normalize(DateTimeOffset)` converts the input to UTC or local based on configuration
+- `TimeProvider` (.NET 8+) returns the active `TimeProvider` (defaults to `TimeProvider.System`)
 
 ## API
 
@@ -163,12 +203,14 @@ DateTimeOffset normalizedOffset = clock.Normalize(DateTimeOffset.Now);
   - `DateTimeOffset Normalize(DateTimeOffset dateTime)`
   - `bool SupportsMultipleTimezone { get; }`
   - `DateTimeKind Kind { get; }`
+  - `TimeProvider TimeProvider { get; }` *(.NET 8+)*
 - `ClockOptions`
   - `DateTimeKind Kind { get; set; }`
+  - `TimeProvider? TimeProvider { get; set; }` *(.NET 8+)*
 - `ClockServiceCollectionExtensions`
   - `AddTimingClock(this IServiceCollection services, Action<ClockOptions>? configureOptions = null)`
 
 ## Notes
 
-- The concrete `Clock` class is internal and not publicly exposed in the package.
+- The concrete `Clock` class is internal sealed and not publicly exposed in the package.
 - Users should only depend on `IClock`.
